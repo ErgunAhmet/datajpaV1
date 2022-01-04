@@ -1,4 +1,4 @@
-package com.datajpa.demo.models;
+package com.datajpa.demo.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

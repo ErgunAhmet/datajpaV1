@@ -1,4 +1,4 @@
-package com.datajpa.demo.models;
+package com.datajpa.demo.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Data
@@ -27,5 +26,13 @@ public class Author {
         this.name = name;
         this.zipCode = zipCode;
         this.books = books;
+    }
+
+    public void addBook(Book book) {
+        books.add(book);
+    }
+
+    public void removeBook(Book book) {
+        books.remove(book);
     }
 }

@@ -1,4 +1,4 @@
-package com.datajpa.demo.models;
+package com.datajpa.demo.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Data
@@ -33,4 +32,13 @@ public class Book {
         this.authors = authors;
         this.category = category;
     }
+
+    public void removeAuthor(Author author) {
+        authors.remove(author);
+    }
+
+    public void addAuthor(Author author) {
+        authors.add(author);
+    }
+
 }
