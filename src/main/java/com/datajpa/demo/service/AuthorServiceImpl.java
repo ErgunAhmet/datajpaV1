@@ -18,13 +18,12 @@ import java.util.stream.StreamSupport;
 public class AuthorServiceImpl implements AuthorService {
 
     private final AuthorRepository authorRepository;
-    private final BookService bookService;
+
     private final ZipcodeService zipcodeService;
 
     @Autowired
-    public AuthorServiceImpl(AuthorRepository authorRepository, BookService bookService, ZipcodeService zipcodeService) {
+    public AuthorServiceImpl(AuthorRepository authorRepository,ZipcodeService zipcodeService) {
         this.authorRepository = authorRepository;
-        this.bookService = bookService;
         this.zipcodeService = zipcodeService;
     }
 
@@ -84,29 +83,4 @@ public class AuthorServiceImpl implements AuthorService {
         return author;
     }
 
-    @Transactional
-    @Override
-    public Author addBookToAuthor(Long authorId, Long bookId) {
-        Author author = getAuthor(authorId);
-        Book book = bookService.getBook(bookId);
-        if (author.getBooks().contains(book)) {
-            throw new BookAlreadyAssignedToAuthorException(authorId, bookId);
-        }
-        author.addBook(book);
-        book.addAuthor(author);
-        return author;
-    }
-
-    @Transactional
-    @Override
-    public Author removeBookFromAuthor(Long authorId, Long bookId) {
-        Author author = getAuthor(authorId);
-        Book book = bookService.getBook(bookId);
-        if (!(author.getBooks().contains(book))) {
-            throw new BookIsNotAssignedToAuthorException(authorId, bookId);
-        }
-        author.removeBook(book);
-        book.removeAuthor(author);
-        return author;
-    }
 }

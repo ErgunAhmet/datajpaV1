@@ -13,6 +13,6 @@ public interface CategoryService {
     public List<Category> getCategories();
     public Category deleteCategory(Long id);
     public Category editCategory(Long id, Category category);
-    public Category addBookToCategory(Long bookId, Long categoryId);
-    public Category removeBookFromCategory(Long bookId, Long categoryId);
+//    public Category addBookToCategory(Long bookId, Long categoryId);
+//    public Category removeBookFromCategory(Long bookId, Long categoryId);
 }

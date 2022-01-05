@@ -15,6 +15,6 @@ public interface AuthorService {
     public Author editAuthor(Long id, Author author);
     public Author addZipCodeToAuthor(Long authorId, Long zipCodeId);
     public Author removeZipCodeFromAuthor(Long authorId);
-    public Author addBookToAuthor(Long authorId, Long bookId);
-    public Author removeBookFromAuthor(Long authorId, Long bookId);
+//    public Author addBookToAuthor(Long authorId, Long bookId);
+//    public Author removeBookFromAuthor(Long authorId, Long bookId);
 }

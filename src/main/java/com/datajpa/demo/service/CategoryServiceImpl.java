@@ -18,12 +18,11 @@ import java.util.stream.StreamSupport;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
-    private final BookService bookService;
+
 
     @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository, BookService bookService) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
-        this.bookService = bookService;
     }
 
     @Override
@@ -58,29 +57,5 @@ public class CategoryServiceImpl implements CategoryService {
         categoryToEdit.setName(category.getName());
         return categoryToEdit;
 
-    }
-
-    @Override
-    public Category addBookToCategory(Long bookId, Long categoryId) {
-        Category category = getCategory(categoryId);
-        Book book = bookService.getBook(bookId);
-        if (Objects.nonNull(book.getCategory())) {
-            throw new CategoryAlreadyAssignedException(book.getCategory().getId(), bookId);
-        }
-        category.addBook(book);
-        book.setCategory(category);
-        return category;
-    }
-
-    @Override
-    public Category removeBookFromCategory(Long bookId, Long categoryId) {
-        Category category = getCategory(categoryId);
-        Book book = bookService.getBook(bookId);
-        if (!Objects.nonNull(book.getCategory())) {
-            throw new CategoryIsNotAssignedException(book.getCategory().getId(), bookId);
-        }
-        category.removeBook(book);
-        book.setCategory(null);
-        return category;
     }
 }
