@@ -13,8 +13,6 @@ public interface BookService {
     public List<Book> getBooks();
     public Book deleteBook(Long id);
     public Book editBook(Long id, Book book);
-    public Book addAuthorToBook(Long bookId, Long authorId);
-    public Book removeAuthorFromBook(Long bookId, Long authorId);
     public Book addCategoryToBook(Long bookId, Long categoryId);
     public Book removeCategoryFromBook(Long bookId, Long categoryId);
 }

@@ -1,5 +1,6 @@
 package com.datajpa.demo.model;
 
+import com.datajpa.demo.model.dto.CityDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,11 +22,9 @@ public class City {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "City{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+    public static City from(CityDto cityDto) {
+        City city = new City();
+        city.setName(cityDto.getName());
+        return city;
     }
 }

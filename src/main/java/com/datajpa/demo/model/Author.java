@@ -1,11 +1,13 @@
 package com.datajpa.demo.model;
 
+import com.datajpa.demo.model.dto.AuthorDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Data
@@ -34,5 +36,17 @@ public class Author {
 
     public void removeBook(Book book) {
         books.remove(book);
+    }
+
+    public static Author from(AuthorDto authorDto) {
+        Author author = new Author();
+        author.setName(authorDto.getName());
+        if (Objects.nonNull(authorDto.getZipCode())){
+            author.setZipCode(author.getZipCode());
+        }
+        if (Objects.nonNull(authorDto.getBooks())) {
+            author.setBooks(authorDto.getBooks());
+        }
+        return author;
     }
 }

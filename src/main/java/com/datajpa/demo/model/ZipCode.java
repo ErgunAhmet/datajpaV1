@@ -1,9 +1,11 @@
 package com.datajpa.demo.model;
 
+import com.datajpa.demo.model.dto.ZipCodeDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Data
@@ -21,5 +23,16 @@ public class ZipCode {
     public ZipCode(String code, City city) {
         this.code = code;
         this.city = city;
+    }
+
+    public static ZipCode from(ZipCodeDto zipCodeDto) {
+        ZipCode zipCode = new ZipCode();
+        zipCode.setCode(zipCodeDto.getCode());
+        if (Objects.nonNull(zipCodeDto.getCity())) {
+            zipCode.setCity(zipCodeDto.getCity());
+        } else {
+            zipCode.setCity(null);
+        }
+        return zipCode;
     }
 }

@@ -20,11 +20,13 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepository;
 
     private final ZipcodeService zipcodeService;
+    private final BookService bookService;
 
     @Autowired
-    public AuthorServiceImpl(AuthorRepository authorRepository,ZipcodeService zipcodeService) {
+    public AuthorServiceImpl(AuthorRepository authorRepository, ZipcodeService zipcodeService, BookService bookService) {
         this.authorRepository = authorRepository;
         this.zipcodeService = zipcodeService;
+        this.bookService = bookService;
     }
 
     @Override
@@ -57,8 +59,6 @@ public class AuthorServiceImpl implements AuthorService {
     public Author editAuthor(Long id, Author author) {
         Author authorToEdit = getAuthor(id);
         authorToEdit.setName(author.getName());
-        authorToEdit.setBooks(author.getBooks());
-        authorToEdit.setZipCode(author.getZipCode());
         return authorToEdit;
     }
 
@@ -83,4 +83,29 @@ public class AuthorServiceImpl implements AuthorService {
         return author;
     }
 
+    @Transactional
+    @Override
+    public Author addAuthorToBook(Long bookId, Long authorId) {
+        Book book = bookService.getBook(bookId);
+        Author author = getAuthor(authorId);
+        if (author.getBooks().contains(book)) {
+            throw new BookAlreadyAssignedToAuthorException(authorId, bookId);
+        }
+        book.addAuthor(author);
+        author.addBook(book);
+        return author;
+    }
+
+    @Transactional
+    @Override
+    public Author removeAuthorFromBook(Long bookId, Long authorId) {
+        Book book = bookService.getBook(bookId);
+        Author author = getAuthor(authorId);
+        if (!(author.getBooks().contains(book))) {
+            throw new BookIsNotAssignedToAuthorException(authorId, bookId);
+        }
+        author.removeBook(book);
+        book.removeAuthor(author);
+        return author;
+    }
 }

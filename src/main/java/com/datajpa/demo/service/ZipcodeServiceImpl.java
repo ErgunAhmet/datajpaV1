@@ -57,7 +57,6 @@ public class ZipcodeServiceImpl implements ZipcodeService {
     public ZipCode editZipCode(Long id, ZipCode zipCode) {
         ZipCode zipCodeToEdit = getZipCode(id);
         zipCodeToEdit.setCode(zipCode.getCode());
-        zipCodeToEdit.setCity(zipCode.getCity());
         return zipCodeToEdit;
     }
 
