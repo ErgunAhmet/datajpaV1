@@ -1,5 +1,6 @@
 package com.datajpa.demo.model;
 
+import com.datajpa.demo.model.dto.CategoryDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,5 +26,11 @@ public class Category {
 
     public void removeBook(Book book) {
         books.remove(book);
+    }
+
+    public static Category from(CategoryDto categoryDto) {
+        Category category = new Category();
+        category.setName(categoryDto.getName());
+        return category;
     }
 }

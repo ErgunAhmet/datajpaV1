@@ -1,7 +1,9 @@
 package com.datajpa.demo.model;
 
+import com.datajpa.demo.model.dto.BookDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,12 +18,8 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    @ManyToMany()
-    @JoinTable(
-            name = "book_author",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "author_id")
-    )
+    @Nullable
+    @ManyToMany(mappedBy = "books")
     private List<Author> authors = new ArrayList<>();
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
@@ -39,6 +37,12 @@ public class Book {
 
     public void addAuthor(Author author) {
         authors.add(author);
+    }
+
+    public static Book from(BookDto bookDto) {
+        Book book = new Book();
+        book.setName(bookDto.getName());
+        return book;
     }
 
 }

@@ -1,21 +1,19 @@
 package com.datajpa.demo.model.dto;
 
 import com.datajpa.demo.model.City;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
 @Data
+@NoArgsConstructor
 public class ZipCodeDto {
     private String code;
-    private City city;
+    private Long cityId;
 
-    public ZipCodeDto(String code, City city) {
+    public ZipCodeDto(String code) {
         this.code = code;
-        if (Objects.nonNull(city)) {
-            this.city =  city;
-        }else {
-            this.city = null;
-        }
     }
 }

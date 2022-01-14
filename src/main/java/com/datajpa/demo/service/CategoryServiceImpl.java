@@ -53,7 +53,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category editCategory(Long id, Category category) {
         Category categoryToEdit = getCategory(id);
-        categoryToEdit.setBooks(category.getBooks());
         categoryToEdit.setName(category.getName());
         return categoryToEdit;
 

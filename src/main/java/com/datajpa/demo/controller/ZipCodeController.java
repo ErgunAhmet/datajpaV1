@@ -64,4 +64,5 @@ public class ZipCodeController {
         ZipCode zipCode = zipcodeService.removeCityFromZipCode(zipCodeId);
         return new ResponseEntity<>(zipCode, HttpStatus.OK);
     }
+
 }

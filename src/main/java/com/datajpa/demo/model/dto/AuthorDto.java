@@ -11,16 +11,10 @@ import java.util.Objects;
 @Data
 public class AuthorDto {
     private String name;
-    private ZipCode zipCode;
-    private List<Book> books = new ArrayList<>();
 
-    public AuthorDto(String name, ZipCode zipCode, List<Book> books) {
+
+    public AuthorDto(String name) {
         this.name = name;
-        if (Objects.nonNull(zipCode)) {
-            this.zipCode = zipCode;
-        }
-        if (Objects.nonNull(books)) {
-            this.books = books;
-        }
+
     }
 }

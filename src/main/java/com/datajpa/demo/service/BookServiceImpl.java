@@ -55,8 +55,6 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book editBook(Long id, Book book) {
         Book bookToEdit = getBook(id);
-        bookToEdit.setAuthors(book.getAuthors());
-        bookToEdit.setCategory(book.getCategory());
         bookToEdit.setName(book.getName());
         return bookToEdit;
     }
