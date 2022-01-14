@@ -1,14 +1,18 @@
 package com.datajpa.demo.model;
 
 import com.datajpa.demo.model.dto.BookDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 @Entity
 @Data
 @NoArgsConstructor
@@ -18,9 +22,16 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+    @JsonIgnore
     @Nullable
-    @ManyToMany(mappedBy = "books")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "book_author",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id")
+    )
     private List<Author> authors = new ArrayList<>();
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
     private Category category;

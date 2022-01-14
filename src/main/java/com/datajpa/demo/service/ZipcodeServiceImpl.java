@@ -2,6 +2,7 @@ package com.datajpa.demo.service;
 
 import com.datajpa.demo.model.City;
 import com.datajpa.demo.model.ZipCode;
+import com.datajpa.demo.model.dto.ZipCodeDto;
 import com.datajpa.demo.model.exception.ZipCodeIsAlreadyAssignedException;
 import com.datajpa.demo.model.exception.ZipCodeNotFoundException;
 import com.datajpa.demo.repository.CityRepository;
@@ -27,8 +28,16 @@ public class ZipcodeServiceImpl implements ZipcodeService {
         this.cityService = cityService;
     }
 
+    @Transactional
     @Override
-    public ZipCode addZipCode(ZipCode zipCode) {
+    public ZipCode addZipCode(ZipCodeDto zipCodeDto) {
+        ZipCode zipCode = new ZipCode();
+        zipCode.setCode(zipCodeDto.getCode());
+        if (zipCodeDto.getCityId() == null) {
+            return zipCodeRepository.save(zipCode);
+        }
+        City city = cityService.getCity(zipCodeDto.getCityId());
+        zipCode.setCity(city);
         return zipCodeRepository.save(zipCode);
     }
 
@@ -54,9 +63,14 @@ public class ZipcodeServiceImpl implements ZipcodeService {
 
     @Transactional
     @Override
-    public ZipCode editZipCode(Long id, ZipCode zipCode) {
+    public ZipCode editZipCode(Long id, ZipCodeDto zipCodeDto) {
         ZipCode zipCodeToEdit = getZipCode(id);
-        zipCodeToEdit.setCode(zipCode.getCode());
+        zipCodeToEdit.setCode(zipCodeDto.getCode());
+        if (zipCodeDto.getCityId() != null) {
+            return zipCodeToEdit;
+        }
+        City city = cityService.getCity(zipCodeDto.getCityId());
+        zipCodeToEdit.setCity(city);
         return zipCodeToEdit;
     }
 

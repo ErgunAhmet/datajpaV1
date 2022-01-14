@@ -24,7 +24,7 @@ public class CityController {
 
     @PostMapping("/add")
     public ResponseEntity<City> addCity(@RequestBody final CityDto cityDto) {
-        City city = cityService.addCity(City.from(cityDto));
+        City city = cityService.addCity(cityDto);
         return new ResponseEntity<>(city, HttpStatus.OK);
     }
 
@@ -49,7 +49,7 @@ public class CityController {
     @PutMapping("/edit/{id}")
     public ResponseEntity<City> editCity(@PathVariable final Long id,
                                             @RequestBody final CityDto cityDto) {
-        City city = cityService.editCity(id, City.from(cityDto));
+        City city = cityService.editCity(id,cityDto);
         return new ResponseEntity<>(city, HttpStatus.OK);
     }
 }

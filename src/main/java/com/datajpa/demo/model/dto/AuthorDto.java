@@ -11,10 +11,10 @@ import java.util.Objects;
 @Data
 public class AuthorDto {
     private String name;
+    private Long zipCodeId;
 
-
-    public AuthorDto(String name) {
+    public AuthorDto(String name, Long zipCodeId) {
         this.name = name;
-
+        this.zipCodeId = zipCodeId;
     }
 }

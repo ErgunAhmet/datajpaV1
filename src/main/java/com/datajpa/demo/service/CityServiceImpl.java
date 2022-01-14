@@ -1,6 +1,7 @@
 package com.datajpa.demo.service;
 
 import com.datajpa.demo.model.City;
+import com.datajpa.demo.model.dto.CityDto;
 import com.datajpa.demo.model.exception.CityNotFoundException;
 import com.datajpa.demo.repository.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,9 @@ public class CityServiceImpl implements CityService {
 
 
     @Override
-    public City addCity(City city) {
+    public City addCity(CityDto cityDto) {
+        City city = new City();
+        city.setName(cityDto.getName());
         return cityRepository.save(city);
 
     }
@@ -51,9 +54,9 @@ public class CityServiceImpl implements CityService {
 
     @Transactional
     @Override
-    public City editCity(Long id, City city) {
+    public City editCity(Long id, CityDto cityDto) {
         City cityToEdit = getCity(id);
-        cityToEdit.setName(city.getName());
+        cityToEdit.setName(cityDto.getName());
         return cityToEdit;
     }
 }

@@ -25,7 +25,7 @@ public class CategoryController {
 
     @PostMapping("/add")
     public ResponseEntity<Category> addAuthor(@RequestBody final CategoryDto categoryDto) {
-        Category category = categoryService.addCategory(Category.from(categoryDto));
+        Category category = categoryService.addCategory(categoryDto);
         return new ResponseEntity<>(category, HttpStatus.OK);
     }
 
@@ -50,7 +50,7 @@ public class CategoryController {
     @PutMapping("/edit/{id}")
     public ResponseEntity<Category> editAuthor(@PathVariable final Long id,
                                                @RequestBody final CategoryDto categoryDto) {
-        Category category = categoryService.editCategory(id, Category.from(categoryDto));
+        Category category = categoryService.editCategory(id,categoryDto);
         return new ResponseEntity<>(category, HttpStatus.OK);
     }
 }

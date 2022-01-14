@@ -7,9 +7,5 @@ import lombok.Data;
 public class CategoryDto {
     private String name;
 
-    public static CategoryDto from(Category category) {
-        CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setName(category.getName());
-        return categoryDto;
-    }
+
 }

@@ -2,6 +2,7 @@ package com.datajpa.demo.service;
 
 import com.datajpa.demo.model.Book;
 import com.datajpa.demo.model.Category;
+import com.datajpa.demo.model.dto.CategoryDto;
 import com.datajpa.demo.model.exception.CategoryAlreadyAssignedException;
 import com.datajpa.demo.model.exception.CategoryIsNotAssignedException;
 import com.datajpa.demo.model.exception.CategoryNotFoundException;
@@ -32,7 +33,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category addCategory(Category category) {
+    public Category addCategory(CategoryDto categoryDto) {
+        Category category = new Category();
+        category.setName(categoryDto.getName());
         return categoryRepository.save(category);
     }
 
@@ -51,9 +54,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category editCategory(Long id, Category category) {
+    public Category editCategory(Long id, CategoryDto categoryDto) {
         Category categoryToEdit = getCategory(id);
-        categoryToEdit.setName(category.getName());
+        categoryToEdit.setName(categoryDto.getName());
         return categoryToEdit;
 
     }

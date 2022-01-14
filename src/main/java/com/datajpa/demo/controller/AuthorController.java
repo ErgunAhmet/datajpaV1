@@ -23,7 +23,7 @@ public class AuthorController {
 
     @PostMapping("/add")
     public ResponseEntity<Author> addAuthor(@RequestBody final AuthorDto authorDto) {
-        Author author = authorService.addAuthor(Author.from(authorDto));
+        Author author = authorService.addAuthor(authorDto);
         return new ResponseEntity<>(author, HttpStatus.OK);
     }
 
@@ -48,7 +48,7 @@ public class AuthorController {
     @PutMapping("/edit/{id}")
     public ResponseEntity<Author> editAuthor(@PathVariable final Long id,
                                              @RequestBody final AuthorDto authorDto) {
-        Author author = authorService.editAuthor(id, Author.from(authorDto));
+        Author author = authorService.editAuthor(id, authorDto);
         return new ResponseEntity<>(author, HttpStatus.OK);
     }
 
@@ -65,17 +65,5 @@ public class AuthorController {
         return new ResponseEntity<>(author, HttpStatus.OK);
     }
 
-    @PostMapping("/addBook/{bookId}/toAuthor/{authorId}")
-    public ResponseEntity<Author> addBook(@PathVariable final Long bookId,
-                                          @PathVariable final Long authorId) {
-        Author author = authorService.addAuthorToBook(bookId, authorId);
-        return new ResponseEntity<>(author, HttpStatus.OK);
-    }
 
-    @PostMapping("/removeBook/{bookId}/fromAuthor/{authorId}")
-    public ResponseEntity<Author> removeBook(@PathVariable final Long bookId,
-                                          @PathVariable final Long authorId) {
-        Author author = authorService.removeAuthorFromBook(bookId, authorId);
-        return new ResponseEntity<>(author, HttpStatus.OK);
-    }
 }

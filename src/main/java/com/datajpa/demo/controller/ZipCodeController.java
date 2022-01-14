@@ -23,7 +23,7 @@ public class ZipCodeController {
 
     @PostMapping("/add")
     public ResponseEntity<ZipCode> addZipCode(@RequestBody final ZipCodeDto zipCodeDto) {
-        ZipCode zipCode = zipcodeService.addZipCode(ZipCode.from(zipCodeDto));
+        ZipCode zipCode = zipcodeService.addZipCode(zipCodeDto);
         return new ResponseEntity<>(zipCode, HttpStatus.OK);
     }
 
@@ -48,7 +48,7 @@ public class ZipCodeController {
     @PutMapping("/edit/{id}")
     public ResponseEntity<ZipCode> editZipCode(@PathVariable final Long id,
                                                @RequestBody final ZipCodeDto zipCodeDto) {
-        ZipCode zipCode = zipcodeService.editZipCode(id, ZipCode.from(zipCodeDto));
+        ZipCode zipCode = zipcodeService.editZipCode(id, zipCodeDto);
         return new ResponseEntity<>(zipCode, HttpStatus.OK);
     }
 

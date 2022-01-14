@@ -3,12 +3,14 @@ package com.datajpa.demo.service;
 import com.datajpa.demo.model.Author;
 import com.datajpa.demo.model.Book;
 import com.datajpa.demo.model.ZipCode;
+import com.datajpa.demo.model.dto.AuthorDto;
 import com.datajpa.demo.model.exception.*;
 import com.datajpa.demo.repository.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -20,17 +22,24 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepository;
 
     private final ZipcodeService zipcodeService;
-    private final BookService bookService;
+
 
     @Autowired
-    public AuthorServiceImpl(AuthorRepository authorRepository, ZipcodeService zipcodeService, BookService bookService) {
+    public AuthorServiceImpl(AuthorRepository authorRepository, ZipcodeService zipcodeService) {
         this.authorRepository = authorRepository;
         this.zipcodeService = zipcodeService;
-        this.bookService = bookService;
-    }
 
+    }
+    @Transactional
     @Override
-    public Author addAuthor(Author author) {
+    public Author addAuthor(AuthorDto authorDto) {
+        Author author = new Author();
+        author.setName(authorDto.getName());
+        if (authorDto.getZipCodeId() == null) {
+            throw new AuthorNeedAnZipcodeException();
+        }
+        ZipCode zipCode = zipcodeService.getZipCode(authorDto.getZipCodeId());
+        author.setZipCode(zipCode);
         return authorRepository.save(author);
     }
 
@@ -56,9 +65,14 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Transactional
     @Override
-    public Author editAuthor(Long id, Author author) {
+    public Author editAuthor(Long id, AuthorDto authorDto) {
         Author authorToEdit = getAuthor(id);
-        authorToEdit.setName(author.getName());
+        authorToEdit.setName(authorDto.getName());
+        if (authorDto.getZipCodeId() != null) {
+            ZipCode zipCode = zipcodeService.getZipCode(authorDto.getZipCodeId());
+            authorToEdit.setZipCode(zipCode);
+        }
+
         return authorToEdit;
     }
 
@@ -83,29 +97,5 @@ public class AuthorServiceImpl implements AuthorService {
         return author;
     }
 
-    @Transactional
-    @Override
-    public Author addAuthorToBook(Long bookId, Long authorId) {
-        Book book = bookService.getBook(bookId);
-        Author author = getAuthor(authorId);
-        if (author.getBooks().contains(book)) {
-            throw new BookAlreadyAssignedToAuthorException(authorId, bookId);
-        }
-        book.addAuthor(author);
-        author.addBook(book);
-        return author;
-    }
 
-    @Transactional
-    @Override
-    public Author removeAuthorFromBook(Long bookId, Long authorId) {
-        Book book = bookService.getBook(bookId);
-        Author author = getAuthor(authorId);
-        if (!(author.getBooks().contains(book))) {
-            throw new BookIsNotAssignedToAuthorException(authorId, bookId);
-        }
-        author.removeBook(book);
-        book.removeAuthor(author);
-        return author;
-    }
 }
