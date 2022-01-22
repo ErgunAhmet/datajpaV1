@@ -1,9 +1,8 @@
 package com.datajpa.demo.controller;
 
-import com.datajpa.demo.model.Book;
 import com.datajpa.demo.model.Category;
-import com.datajpa.demo.model.dto.BookDto;
-import com.datajpa.demo.model.dto.CategoryDto;
+import com.datajpa.demo.model.dto.request.CategoryDto;
+import com.datajpa.demo.model.dto.response.CategoryResponseDto;
 import com.datajpa.demo.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,33 +23,33 @@ public class CategoryController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Category> addAuthor(@RequestBody final CategoryDto categoryDto) {
-        Category category = categoryService.addCategory(categoryDto);
+    public ResponseEntity<CategoryResponseDto> addAuthor(@RequestBody final CategoryDto categoryDto) {
+        CategoryResponseDto category = categoryService.addCategory(categoryDto);
         return new ResponseEntity<>(category, HttpStatus.OK);
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<Category> getAuthor(@PathVariable final Long id) {
-        Category category = categoryService.getCategory(id);
+    public ResponseEntity<CategoryResponseDto> getAuthor(@PathVariable final Long id) {
+        CategoryResponseDto category = categoryService.getCategoryById(id);
         return new ResponseEntity<>(category, HttpStatus.OK);
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<Category>> getAuthors() {
-        List<Category> categories = categoryService.getCategories();
+    public ResponseEntity<List<CategoryResponseDto>> getAuthors() {
+        List<CategoryResponseDto> categories = categoryService.getCategories();
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Category> deleteAuthor(@PathVariable final Long id) {
-        Category category = categoryService.deleteCategory(id);
+    public ResponseEntity<CategoryResponseDto> deleteAuthor(@PathVariable final Long id) {
+        CategoryResponseDto category = categoryService.deleteCategory(id);
         return new ResponseEntity<>(category, HttpStatus.OK);
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Category> editAuthor(@PathVariable final Long id,
+    public ResponseEntity<CategoryResponseDto> editAuthor(@PathVariable final Long id,
                                                @RequestBody final CategoryDto categoryDto) {
-        Category category = categoryService.editCategory(id,categoryDto);
+        CategoryResponseDto category = categoryService.editCategory(id,categoryDto);
         return new ResponseEntity<>(category, HttpStatus.OK);
     }
 }

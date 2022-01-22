@@ -1,7 +1,8 @@
 package com.datajpa.demo.controller;
 
 import com.datajpa.demo.model.Author;
-import com.datajpa.demo.model.dto.AuthorDto;
+import com.datajpa.demo.model.dto.request.AuthorDto;
+import com.datajpa.demo.model.dto.response.AuthorResponseDto;
 import com.datajpa.demo.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,46 +23,46 @@ public class AuthorController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Author> addAuthor(@RequestBody final AuthorDto authorDto) {
-        Author author = authorService.addAuthor(authorDto);
+    public ResponseEntity<AuthorResponseDto> addAuthor(@RequestBody final AuthorDto authorDto) {
+        AuthorResponseDto author = authorService.addAuthor(authorDto);
         return new ResponseEntity<>(author, HttpStatus.OK);
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<Author> getAuthor(@PathVariable final Long id) {
-        Author author = authorService.getAuthor(id);
+    public ResponseEntity<AuthorResponseDto> getAuthor(@PathVariable final Long id) {
+        AuthorResponseDto author = authorService.getAuthorById(id);
         return new ResponseEntity<>(author, HttpStatus.OK);
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<Author>> getAuthors() {
-        List<Author> authors = authorService.getAuthors();
+    public ResponseEntity<List<AuthorResponseDto>> getAuthors() {
+        List<AuthorResponseDto> authors = authorService.getAuthors();
         return new ResponseEntity<>(authors, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Author> deleteAuthor(@PathVariable final Long id) {
-        Author author = authorService.deleteAuthor(id);
+    public ResponseEntity<AuthorResponseDto> deleteAuthor(@PathVariable final Long id) {
+        AuthorResponseDto author = authorService.deleteAuthor(id);
         return new ResponseEntity<>(author, HttpStatus.OK);
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Author> editAuthor(@PathVariable final Long id,
+    public ResponseEntity<AuthorResponseDto> editAuthor(@PathVariable final Long id,
                                              @RequestBody final AuthorDto authorDto) {
-        Author author = authorService.editAuthor(id, authorDto);
+        AuthorResponseDto author = authorService.editAuthor(id, authorDto);
         return new ResponseEntity<>(author, HttpStatus.OK);
     }
 
     @PostMapping("/addZipCode/{zipcodeId}/toAuthor/{authorId}")
-    public ResponseEntity<Author> addZipCode(@PathVariable final Long zipcodeId,
+    public ResponseEntity<AuthorResponseDto> addZipCode(@PathVariable final Long zipcodeId,
                                              @PathVariable final Long authorId) {
-        Author author = authorService.addZipCodeToAuthor(authorId, zipcodeId);
+        AuthorResponseDto author = authorService.addZipCodeToAuthor(authorId, zipcodeId);
         return new ResponseEntity<>(author, HttpStatus.OK);
     }
 
     @PostMapping("/removeZipCode/{authorId}")
-    public ResponseEntity<Author> removeZipCode(@PathVariable final Long authorId) {
-        Author author = authorService.removeZipCodeFromAuthor(authorId);
+    public ResponseEntity<AuthorResponseDto> removeZipCode(@PathVariable final Long authorId) {
+        AuthorResponseDto author = authorService.removeZipCodeFromAuthor(authorId);
         return new ResponseEntity<>(author, HttpStatus.OK);
     }
 

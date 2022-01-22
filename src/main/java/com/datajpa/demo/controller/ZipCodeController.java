@@ -1,6 +1,6 @@
 package com.datajpa.demo.controller;
 import com.datajpa.demo.model.ZipCode;
-import com.datajpa.demo.model.dto.ZipCodeDto;
+import com.datajpa.demo.model.dto.request.ZipCodeDto;
 import com.datajpa.demo.service.ZipcodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

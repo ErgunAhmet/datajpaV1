@@ -1,8 +1,7 @@
 package com.datajpa.demo.service;
 
-import com.datajpa.demo.model.City;
 import com.datajpa.demo.model.ZipCode;
-import com.datajpa.demo.model.dto.ZipCodeDto;
+import com.datajpa.demo.model.dto.request.ZipCodeDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

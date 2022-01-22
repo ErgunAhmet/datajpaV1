@@ -2,10 +2,9 @@ package com.datajpa.demo.service;
 
 import com.datajpa.demo.model.City;
 import com.datajpa.demo.model.ZipCode;
-import com.datajpa.demo.model.dto.ZipCodeDto;
+import com.datajpa.demo.model.dto.request.ZipCodeDto;
 import com.datajpa.demo.model.exception.ZipCodeIsAlreadyAssignedException;
 import com.datajpa.demo.model.exception.ZipCodeNotFoundException;
-import com.datajpa.demo.repository.CityRepository;
 import com.datajpa.demo.repository.ZipCodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

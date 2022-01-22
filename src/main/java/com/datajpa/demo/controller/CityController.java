@@ -1,7 +1,7 @@
 package com.datajpa.demo.controller;
 
 import com.datajpa.demo.model.City;
-import com.datajpa.demo.model.dto.CityDto;
+import com.datajpa.demo.model.dto.request.CityDto;
 import com.datajpa.demo.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

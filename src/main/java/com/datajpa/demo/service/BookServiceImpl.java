@@ -1,9 +1,11 @@
 package com.datajpa.demo.service;
 
+import com.datajpa.demo.mapper.mapper;
 import com.datajpa.demo.model.Author;
 import com.datajpa.demo.model.Book;
 import com.datajpa.demo.model.Category;
-import com.datajpa.demo.model.dto.BookDto;
+import com.datajpa.demo.model.dto.request.BookDto;
+import com.datajpa.demo.model.dto.response.BookResponseDto;
 import com.datajpa.demo.model.exception.*;
 import com.datajpa.demo.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +33,20 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book getBook(Long id) {
-        return bookRepository.findById(id).orElseThrow(() ->
+    public BookResponseDto getBookById(Long id) {
+        Book book = getBook(id);
+        return mapper.bookToBookResponseDto(book);
+    }
+
+    public Book getBook(Long id){
+        Book book = bookRepository.findById(id).orElseThrow(() ->
                 new BookNotFoundException(id));
+        return book;
     }
 
     @Transactional
     @Override
-    public Book addBook(BookDto bookDto) {
+    public BookResponseDto addBook(BookDto bookDto) {
         Book book = new Book();
         book.setName(bookDto.getName());
         if (bookDto.getAuthorId().isEmpty()) {
@@ -56,26 +64,30 @@ public class BookServiceImpl implements BookService {
         }
         Category category = categoryService.getCategory(bookDto.getCategoryId());
         book.setCategory(category);
-        return bookRepository.save(book);
+        Book book1 = bookRepository.save(book);
+
+        BookResponseDto bookResponseDto = mapper.bookToBookResponseDto(book1);
+        return bookResponseDto;
     }
 
     @Override
-    public List<Book> getBooks() {
-        return StreamSupport
+    public List<BookResponseDto> getBooks() {
+        List<Book> books = StreamSupport
                 .stream(bookRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
+        return mapper.booksToBookResponseDtos(books);
     }
 
     @Override
-    public Book deleteBook(Long id) {
+    public BookResponseDto deleteBook(Long id) {
         Book book = getBook(id);
         bookRepository.delete(book);
-        return book;
+        return mapper.bookToBookResponseDto(book);
     }
 
     @Transactional
     @Override
-    public Book editBook(Long id, BookDto bookDto) {
+    public BookResponseDto editBook(Long id, BookDto bookDto) {
         Book bookToEdit = getBook(id);
         bookToEdit.setName(bookDto.getName());
         if (!bookDto.getAuthorId().isEmpty()) {
@@ -90,14 +102,14 @@ public class BookServiceImpl implements BookService {
             Category category = categoryService.getCategory(bookDto.getCategoryId());
             bookToEdit.setCategory(category);
         }
-        return bookToEdit;
+        return mapper.bookToBookResponseDto(bookToEdit);
     }
 
 
 
     @Transactional
     @Override
-    public Book addCategoryToBook(Long bookId, Long categoryId) {
+    public BookResponseDto addCategoryToBook(Long bookId, Long categoryId) {
         Book book = getBook(bookId);
         Category category = categoryService.getCategory(categoryId);
         if (Objects.nonNull(book.getCategory())) {
@@ -105,12 +117,12 @@ public class BookServiceImpl implements BookService {
         }
         book.setCategory(category);
         category.addBook(book);
-        return book;
+        return mapper.bookToBookResponseDto(book);
     }
 
     @Transactional
     @Override
-    public Book removeCategoryFromBook(Long bookId, Long categoryId) {
+    public BookResponseDto removeCategoryFromBook(Long bookId, Long categoryId) {
         Book book = getBook(bookId);
         Category category = categoryService.getCategory(categoryId);
         if (!Objects.nonNull(book.getCategory())) {
@@ -118,11 +130,11 @@ public class BookServiceImpl implements BookService {
         }
         book.setCategory(null);
         category.removeBook(book);
-        return book;
+        return mapper.bookToBookResponseDto(book);
     }
     @Transactional
     @Override
-    public Book addAuthorToBook(Long bookId, Long authorId) {
+    public BookResponseDto addAuthorToBook(Long bookId, Long authorId) {
         Book book = getBook(bookId);
         Author author = authorService.getAuthor(authorId);
         if (author.getBooks().contains(book)) {
@@ -130,12 +142,12 @@ public class BookServiceImpl implements BookService {
         }
         book.addAuthor(author);
         author.addBook(book);
-        return book;
+        return mapper.bookToBookResponseDto(book);
     }
 
     @Transactional
     @Override
-    public Book removeAuthorFromBook(Long bookId, Long authorId) {
+    public BookResponseDto removeAuthorFromBook(Long bookId, Long authorId) {
         Book book = getBook(bookId);
         Author author = authorService.getAuthor(authorId);
         if (!(author.getBooks().contains(book))) {
@@ -143,6 +155,6 @@ public class BookServiceImpl implements BookService {
         }
         author.removeBook(book);
         book.removeAuthor(author);
-        return book;
+        return mapper.bookToBookResponseDto(book);
     }
 }

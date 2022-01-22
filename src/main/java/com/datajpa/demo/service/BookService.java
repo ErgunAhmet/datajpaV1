@@ -1,21 +1,20 @@
 package com.datajpa.demo.service;
 
-import com.datajpa.demo.model.Author;
-import com.datajpa.demo.model.Book;
-import com.datajpa.demo.model.dto.BookDto;
+import com.datajpa.demo.model.dto.request.BookDto;
+import com.datajpa.demo.model.dto.response.BookResponseDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public interface BookService {
-    public Book getBook(Long id);
-    public Book addBook(BookDto bookDto);
-    public List<Book> getBooks();
-    public Book deleteBook(Long id);
-    public Book editBook(Long id, BookDto bookDto);
-    public Book addCategoryToBook(Long bookId, Long categoryId);
-    public Book removeCategoryFromBook(Long bookId, Long categoryId);
-    public Book addAuthorToBook(Long bookId, Long authorId);
-    public Book removeAuthorFromBook(Long bookId, Long authorId);
+    public BookResponseDto getBookById(Long id);
+    public BookResponseDto addBook(BookDto bookDto);
+    public List<BookResponseDto> getBooks();
+    public BookResponseDto deleteBook(Long id);
+    public BookResponseDto editBook(Long id, BookDto bookDto);
+    public BookResponseDto addCategoryToBook(Long bookId, Long categoryId);
+    public BookResponseDto removeCategoryFromBook(Long bookId, Long categoryId);
+    public BookResponseDto addAuthorToBook(Long bookId, Long authorId);
+    public BookResponseDto removeAuthorFromBook(Long bookId, Long authorId);
 }

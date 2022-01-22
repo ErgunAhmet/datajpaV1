@@ -1,7 +1,7 @@
 package com.datajpa.demo.service;
 
 import com.datajpa.demo.model.City;
-import com.datajpa.demo.model.dto.CityDto;
+import com.datajpa.demo.model.dto.request.CityDto;
 import com.datajpa.demo.model.exception.CityNotFoundException;
 import com.datajpa.demo.repository.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 public class CityServiceImpl implements CityService {

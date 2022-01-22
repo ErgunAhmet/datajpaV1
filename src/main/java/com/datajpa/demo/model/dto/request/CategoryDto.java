@@ -1,4 +1,4 @@
-package com.datajpa.demo.model.dto;
+package com.datajpa.demo.model.dto.request;
 
 import com.datajpa.demo.model.Category;
 import lombok.Data;

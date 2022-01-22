@@ -1,17 +1,15 @@
 package com.datajpa.demo.service;
 
-import com.datajpa.demo.model.Book;
+import com.datajpa.demo.mapper.mapper;
 import com.datajpa.demo.model.Category;
-import com.datajpa.demo.model.dto.CategoryDto;
-import com.datajpa.demo.model.exception.CategoryAlreadyAssignedException;
-import com.datajpa.demo.model.exception.CategoryIsNotAssignedException;
+import com.datajpa.demo.model.dto.request.CategoryDto;
+import com.datajpa.demo.model.dto.response.CategoryResponseDto;
 import com.datajpa.demo.model.exception.CategoryNotFoundException;
 import com.datajpa.demo.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -27,37 +25,44 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category getCategory(Long categoryId) {
+    public CategoryResponseDto getCategoryById(Long categoryId) {
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() ->
+                new CategoryNotFoundException(categoryId));
+        return mapper.categoryToCategoryResponseDto(category);
+    }
+    @Override
+    public Category getCategory(Long categoryId){
         return categoryRepository.findById(categoryId).orElseThrow(() ->
                 new CategoryNotFoundException(categoryId));
     }
-
     @Override
-    public Category addCategory(CategoryDto categoryDto) {
+    public CategoryResponseDto addCategory(CategoryDto categoryDto) {
         Category category = new Category();
         category.setName(categoryDto.getName());
-        return categoryRepository.save(category);
+        categoryRepository.save(category);
+        return mapper.categoryToCategoryResponseDto(category);
     }
 
     @Override
-    public List<Category> getCategories() {
-        return StreamSupport
+    public List<CategoryResponseDto> getCategories() {
+        List<Category> categories = StreamSupport
                 .stream(categoryRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
+        return mapper.categoriesToCategoryResponseDtos(categories);
     }
 
     @Override
-    public Category deleteCategory(Long id) {
+    public CategoryResponseDto deleteCategory(Long id) {
         Category category = getCategory(id);
         categoryRepository.delete(category);
-        return category;
+        return mapper.categoryToCategoryResponseDto(category);
     }
 
     @Override
-    public Category editCategory(Long id, CategoryDto categoryDto) {
+    public CategoryResponseDto editCategory(Long id, CategoryDto categoryDto) {
         Category categoryToEdit = getCategory(id);
         categoryToEdit.setName(categoryDto.getName());
-        return categoryToEdit;
+        return mapper.categoryToCategoryResponseDto(categoryToEdit);
 
     }
 }
